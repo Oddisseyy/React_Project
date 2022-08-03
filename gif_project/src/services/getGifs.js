@@ -9,8 +9,19 @@ export default function getGifs({keyword = 'gatitos'} = {})
     .then(response => {
 
       const {data} = response
-      const gifs = data.map(image => image.images.downsized_medium.url)
 
-      return gifs;
+      if (Array.isArray(data)) {
+        
+        const gifs = data.map(image => 
+          {
+            const {images, title, id} = image
+            const {url} = image.images.downsized_medium
+
+            return {title, id, url};
+          })
+
+        return gifs;
+      }
+    
     })
 }
